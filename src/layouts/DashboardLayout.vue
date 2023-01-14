@@ -146,7 +146,10 @@
         <router-view />
       </q-page-container>
       <q-footer>
-        <q-form @submit.prevent="sendMessage">
+        <q-form
+          v-if="currentConversationIndex !== null"
+          @submit.prevent="sendMessage"
+        >
           <q-toolbar class="bg-grey-3 text-black row">
             <q-btn round flat icon="insert_emoticon" class="q-mr-sm" />
             <q-input
@@ -204,7 +207,7 @@ export default {
     const leftDrawerOpen = ref(false);
     const search = ref("");
     const message = ref("");
-    const currentConversationIndex = ref(0);
+    const currentConversationIndex = ref(null);
 
     const current = ref({
       firstname: "",

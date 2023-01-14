@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div class="q-pa-md row justify-center">
+    <div v-if="id !== null" class="q-pa-md row justify-center">
       <div style="width: 100%; max-width: 650px">
         <q-chat-message
           v-for="chat in chats"
