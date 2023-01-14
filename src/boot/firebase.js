@@ -1,0 +1,41 @@
+import { boot } from "quasar/wrappers";
+import { initializeApp } from "firebase/app";
+import { getFirestore, serverTimestamp } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useAuth } from "@vueuse/firebase";
+import { computed } from "vue";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDUVwF2oMTbVHbMHpusv0prHEaDWoclWEA",
+  authDomain: "chat-quasar-f620e.firebaseapp.com",
+  projectId: "chat-quasar-f620e",
+  storageBucket: "chat-quasar-f620e.appspot.com",
+  messagingSenderId: "426273383763",
+  appId: "1:426273383763:web:0404b9d2365d0c8266eda6",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore();
+const auth = getAuth(app);
+const marcaTiempo = serverTimestamp;
+
+export { db, auth, marcaTiempo };
+// alert("Ok");
+// "async" is optional;
+// more info on params: https://v2.quasar.dev/quasar-cli/boot-files
+export default boot((/* { app, router, ... } */ { urlPath, redirect }) => {
+  // something to do
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      if (!urlPath.startsWith("/Login") && !urlPath.startsWith("/signup")) {
+        setTimeout(() => redirect({ path: "/Login" }), 1200);
+        return;
+      }
+    } else {
+      if (urlPath.startsWith("/Login") || urlPath.startsWith("/signup")) {
+        setTimeout(() => redirect({ path: "/chatapp" }), 1100);
+        return;
+      }
+    }
+  });
+});
