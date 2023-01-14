@@ -127,25 +127,29 @@ export const useUsersStore = defineStore("user", {
           collection(db, `chat/${user.uid}/${userContact.uid}`),
           dataMessage
         );
-        await addDoc(collection(db, `chat/${userContact.uid}`), dataMessage);
+        await addDoc(
+          collection(db, `chat/${userContact.uid}`, user.uid),
+          dataMessage
+        );
       } catch (error) {
         console.log(error);
       }
     },
-    getDataChat(idUserSelect) {
-      const query = query(
-        collection(db, `chat/${this.userData.uid}/${idUserSelect}`),
+    async getDataChat(idUserSelect) {
+      if (unsubscribe) this.UNSUSCRIBE();
+      const q = query(
+        collection(db, `chat/${this.userData.uid}`, idUserSelect),
         orderBy("date")
       );
-      unsubscribe = onSnapshot(query, (snapshot) => {
-        this.chat = [];
+      this.chat = [];
+      unsubscribe = onSnapshot(q, (snapshot) => {
         snapshot.docChanges().forEach((change) => {
           if (change.type === "added") {
-            this.chat.push({ ...change.doc.data(), uid: change.doc.uid });
+            this.chat.push({
+              ...change.doc.data(),
+              uid: change.doc.data().uid,
+            });
           }
-          // if (change.type === "removed") {
-          //     console.log("Removed city: ", change.doc.data());
-          // }
         });
       });
     },
