@@ -2,7 +2,7 @@
   <q-item clickable>
     <q-item-section>New group</q-item-section>
   </q-item>
-  <q-item clickable>
+  <q-item @click="changeStatusProfile" to="/profile" clickable>
     <q-item-section>Profile</q-item-section>
   </q-item>
   <q-item clickable>
@@ -19,11 +19,15 @@
   </q-item>
 </template>
 <script setup>
-import { computed, onMounted, watchEffect } from "vue";
+import { computed, inject, onMounted, watchEffect } from "vue";
 import { useAuth } from "@vueuse/firebase";
 import { auth } from "boot/firebase";
 import { useUsersStore } from "src/stores/useUser";
 const store = useUsersStore();
+const statusProfile = inject("listenerProfile");
+const changeStatusProfile = () => {
+  statusProfile.value = true;
+};
 const logout = () => {
   store.logoutUser();
 };

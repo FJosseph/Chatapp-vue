@@ -1,7 +1,10 @@
 <template>
   <div class="WAL position-relative bg-grey-4" :style="style">
     <q-layout view="lHh Lpr lFf" class="WAL__layout shadow-3" container>
-      <q-header v-if="currentConversationIndex !== null" elevated>
+      <q-header
+        v-if="currentConversationIndex !== null && !listenerProfile"
+        elevated
+      >
         <q-toolbar class="bg-grey-3 text-black">
           <q-btn
             round
@@ -147,7 +150,7 @@
       </q-page-container>
       <q-footer>
         <q-form
-          v-if="currentConversationIndex !== null"
+          v-if="currentConversationIndex !== null && !listenerProfile"
           @submit.prevent="sendMessage"
         >
           <q-toolbar class="bg-grey-3 text-black row">
@@ -203,6 +206,8 @@ export default {
     onMounted(() => {
       store.getUser();
     });
+    const listenerProfile = ref(false);
+    provide("listenerProfile", listenerProfile);
     const $q = useQuasar();
     const leftDrawerOpen = ref(false);
     const search = ref("");
@@ -245,6 +250,7 @@ export default {
 
     function setCurrentConversation(index) {
       currentConversationIndex.value = index;
+      listenerProfile.value = false;
     }
     function sendMessage() {
       store.sendMessage(message.value);
@@ -262,6 +268,7 @@ export default {
       toggleLeftDrawer,
       current,
       sendMessage,
+      listenerProfile,
     };
   },
 };

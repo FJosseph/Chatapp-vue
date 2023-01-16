@@ -101,9 +101,10 @@ export const useUsersStore = defineStore("user", {
       onAuthStateChanged(auth, async (user) => {
         const usuario = await getDoc(doc(db, "user", user.uid));
         console.log(usuario);
-        const { firstname, lastname, uid, email } =
+        const { firstname, lastname, uid, email, avatar } =
           usuario._document.data.value.mapValue.fields;
         this.userData = {
+          avatar: avatar.stringValue,
           firstname: firstname.stringValue,
           lastname: lastname.stringValue,
           uid: uid.stringValue,
