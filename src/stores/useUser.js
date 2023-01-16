@@ -79,9 +79,7 @@ export const useUsersStore = defineStore("user", {
         });
         return userSignIn;
       } catch (error) {
-        return {
-          error: error,
-        };
+        return "Error";
       }
     },
     async logoutUser() {

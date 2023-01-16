@@ -60,8 +60,19 @@ export default {
       email: "",
       password: "",
     });
-    const onSubmit = () => {
-      store.signinUser(input.value.email, input.value.password);
+    const onSubmit = async () => {
+      const data = await store.signinUser(
+        input.value.email,
+        input.value.password
+      );
+      if (data == "Error") {
+        return $q.notify({
+          color: "red-4",
+          textColor: "white",
+          icon: "cloud_done",
+          message: "Your password or Email are incorrect",
+        });
+      }
       $q.notify({
         color: "green-4",
         textColor: "white",
