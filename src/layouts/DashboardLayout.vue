@@ -283,11 +283,14 @@ export default {
 
   &:before
     content: ''
-    height: 127px
+    height: 100vh
     position: fixed
     top: 0
     width: 100%
-    background-color: #009688
+    background: #4e54c8
+    background: -webkit-linear-gradient(to right, #8f94fb, #4e54c8)
+    background: linear-gradient(to right, #8f94fb, #4e54c8)
+
 
   &__layout
     margin: 0 auto
