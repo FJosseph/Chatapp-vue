@@ -6,6 +6,8 @@
       clickable
       v-ripple
       @click="$emit('change', index)"
+      to="/chatapp"
+      style="color: black"
     >
       <q-item-section avatar>
         <q-avatar>
@@ -80,4 +82,9 @@ defineProps({
   },
 });
 </script>
-<style></style>
+<style>
+.q-item {
+  text-decoration: none;
+  color: black;
+}
+</style>
