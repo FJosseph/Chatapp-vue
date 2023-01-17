@@ -26,6 +26,8 @@ export const useUsersStore = defineStore("user", {
       firstname: "",
       lastname: "",
       email: "",
+      description: "",
+      avatar: "",
     },
     users: [],
     currentUserContact: {
@@ -101,7 +103,7 @@ export const useUsersStore = defineStore("user", {
       onAuthStateChanged(auth, async (user) => {
         const usuario = await getDoc(doc(db, "user", user.uid));
         console.log(usuario);
-        const { firstname, lastname, uid, email, avatar } =
+        const { firstname, lastname, uid, email, avatar, description } =
           usuario._document.data.value.mapValue.fields;
         this.userData = {
           avatar: avatar.stringValue,
@@ -109,7 +111,13 @@ export const useUsersStore = defineStore("user", {
           lastname: lastname.stringValue,
           uid: uid.stringValue,
           email: email.stringValue,
+          description: description.stringValue,
         };
+      });
+    },
+    async updateUser(data) {
+      await updateDoc(doc(db, "user", this.userData.uid), {
+        ...data,
       });
     },
     async sendMessage(message) {

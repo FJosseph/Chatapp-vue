@@ -1,23 +1,118 @@
 <template>
   <q-page padding>
-    <div id="profile">
-      <img :src="dataUser.avatar" class="img-profile" />
-      <div class="text-profile">
-        <p>{{ dataUser.firstname }}</p>
-        <p>{{ dataUser.lastname }}</p>
+    <form @submit.prevent="updateData">
+      <div id="profile">
+        <img :src="dataUser.avatar" class="img-profile" />
+
+        <div class="text-profile">
+          <div class="text-field">
+            <label for="firstname"
+              >Firstname
+              <q-btn
+                @click="changeData('firstname')"
+                flat
+                round
+                color="deep-purple-5"
+                icon="edit"
+              />
+            </label>
+            <q-input
+              v-if="statusChange.firstname"
+              v-model="dataEdit.firstname"
+              :dense="true"
+            />
+            <p v-else id="firstname">
+              {{ dataEdit.firstname }}
+            </p>
+          </div>
+          <div class="text-field">
+            <label for="lastname"
+              >Lastname
+              <q-btn
+                @click="changeData('lastname')"
+                flat
+                round
+                color="deep-purple-5"
+                icon="edit"
+              />
+            </label>
+            <q-input
+              v-if="statusChange.lastname"
+              v-model="dataEdit.lastname"
+              :dense="true"
+            />
+            <p v-else id="lastname">{{ dataEdit.lastname }}</p>
+          </div>
+        </div>
+        <label for="email">Email </label>
+        <p id="email">{{ dataUser.email }}</p>
+        <label for="description"
+          >Description
+          <q-btn
+            @click="changeData('description')"
+            flat
+            round
+            color="deep-purple-5"
+            icon="edit"
+          />
+        </label>
+        <q-input
+          v-if="statusChange.description"
+          v-model="dataEdit.description"
+          :dense="true"
+        />
+        <p v-else id="description">
+          {{
+            dataEdit.description || "Escribe alguna descripción sobre ti. 😃"
+          }}
+        </p>
       </div>
-      <p>{{ dataUser.email }}</p>
-    </div>
+    </form>
   </q-page>
 </template>
 <script setup>
-import { computed } from "vue";
+import { computed, ref, watchEffect } from "vue";
 import { useUsersStore } from "src/stores/useUser";
 
 const store = useUsersStore();
 const dataUser = computed(() => store.userData);
+
+const dataEdit = ref({
+  firstname: "",
+  lastname: "",
+  description: "",
+});
+
+const statusChange = ref({
+  firstname: false,
+  lastname: false,
+  description: false,
+});
+watchEffect(() => {
+  dataEdit.value = {
+    firstname: dataUser.value.firstname,
+    lastname: dataUser.value.lastname,
+    description: dataUser.value.description,
+  };
+});
+const changeData = (field) => {
+  statusChange.value[field] = !statusChange.value[field];
+};
+
+const updateData = () => {
+  if (!dataEdit.value.firstname || !dataEdit.value.lastname)
+    return alert("No puede ser vacío");
+  store.updateUser(dataEdit.value);
+  statusChange.value = {
+    firstname: false,
+    lastname: false,
+    description: false,
+  };
+  alert("¡Hola mundo!");
+};
 </script>
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 .img-profile {
   border-radius: 50%;
   /* min-width: 15em; */
@@ -26,14 +121,28 @@ const dataUser = computed(() => store.userData);
   max-height: 25em;
   width: 15em;
   height: 15em;
-  margin: 2em 0;
+  margin-top: 5em;
+  margin-bottom: 2em;
+  box-shadow: rgba(179, 46, 240, 0.4) 0px 5px, rgba(75, 46, 240, 0.3) 0px 10px,
+    rgba(46, 162, 240, 0.2) 0px 15px, rgba(240, 46, 170, 0.1) 0px 20px,
+    rgba(240, 46, 170, 0.05) 0px 25px;
 }
 .text-profile {
-  /* display: flex; */
+  display: flex;
   /* justify-content: space-between; */
+  font-family: "Poppins", sans-serif;
+  margin-bottom: 2em;
+}
+
+label {
+  font-weight: 600;
 }
 p {
-  /* margin: 0 5px; */
+  /* margin: 0 0 16px; */
+}
+
+.text-field {
+  width: 10em;
 }
 #profile {
   max-width: 50em;
@@ -42,5 +151,7 @@ p {
   width: 100%;
   justify-content: center;
   align-items: center;
+}
+button {
 }
 </style>

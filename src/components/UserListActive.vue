@@ -19,16 +19,18 @@
         <q-item-label lines="1">
           {{ conversation.person || conversation.firstname }}
         </q-item-label>
-        <q-item-label lines="1">
+        <!-- <q-item-label lines="1">
           {{ conversation.person || conversation.status }}
-        </q-item-label>
+        </q-item-label> -->
         <!-- <q-item-label class="conversation__summary" caption>
           <q-icon name="check" v-if="conversation.sent" />
           <q-icon name="not_interested" v-if="conversation.deleted" />
           {{ conversation.caption }}
         </q-item-label> -->
       </q-item-section>
-
+      <q-item-section side>
+        <q-badge v-if="conversation.status" rounded color="green" />
+      </q-item-section>
       <!-- <q-item-section side>
         <q-item-label caption>
           {{ conversation.time }}
