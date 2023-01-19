@@ -253,7 +253,9 @@ export default {
       listenerProfile.value = false;
     }
     function sendMessage() {
+      if (!message.value) return;
       store.sendMessage(message.value);
+      message.value = "";
     }
 
     return {
