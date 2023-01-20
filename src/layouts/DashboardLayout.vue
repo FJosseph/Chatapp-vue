@@ -1,5 +1,5 @@
 <template>
-  <div class="WAL position-relative bg-grey-4" :style="style">
+  <div ref="RefMessages" class="WAL position-relative bg-grey-4" :style="style">
     <q-layout view="lHh Lpr lFf" class="WAL__layout shadow-3" container>
       <q-header
         v-if="currentConversationIndex !== null && !listenerProfile"
@@ -213,6 +213,20 @@ export default {
     const search = ref("");
     const message = ref("");
     const currentConversationIndex = ref(null);
+    const RefMessages = ref(null);
+    watchEffect(() => {
+      if (
+        RefMessages.value !== null &&
+        !Object.values(store.chat).includes("")
+      ) {
+        setTimeout(() => {
+          document
+            .getElementsByClassName("scroll")[0]
+            .scrollTo(0, RefMessages.value.scrollHeight);
+          // .scrollTo(0, RefMessages.value.scrollHeight);
+        }, 5);
+      }
+    });
 
     const current = ref({
       firstname: "",
@@ -271,6 +285,7 @@ export default {
       current,
       sendMessage,
       listenerProfile,
+      RefMessages,
     };
   },
 };
