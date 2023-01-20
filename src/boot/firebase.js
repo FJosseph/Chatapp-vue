@@ -13,7 +13,7 @@ const firebaseConfig = {
   projectId: "chat-quasar-f620e",
   storageBucket: "chat-quasar-f620e.appspot.com",
   messagingSenderId: MESSAGIN_SENDER_ID,
-//   appId: APP_ID,
+  appId: APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
