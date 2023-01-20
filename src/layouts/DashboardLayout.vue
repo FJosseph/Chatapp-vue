@@ -149,12 +149,23 @@
         <router-view />
       </q-page-container>
       <q-footer>
+        <emoji-picker
+          v-on:emoji_click="(value) => addEmoji(value)"
+          v-if="statusBoxEmojis"
+          style="position: absolute; z-index: 50; bottom: 4em"
+        />
         <q-form
           v-if="currentConversationIndex !== null && !listenerProfile"
           @submit.prevent="sendMessage"
         >
           <q-toolbar class="bg-grey-3 text-black row">
-            <q-btn round flat icon="insert_emoticon" class="q-mr-sm" />
+            <q-btn
+              @click="openEmojis"
+              round
+              flat
+              icon="insert_emoticon"
+              class="q-mr-sm"
+            />
             <q-input
               rounded
               outlined
@@ -174,11 +185,12 @@
 
 <script>
 import { useQuasar } from "quasar";
-import { ref, computed, onMounted, provide, watchEffect } from "vue";
+import { ref, computed, onMounted, provide, watchEffect, watch } from "vue";
 import FunctionsProfile from "src/components/FunctionsProfile.vue";
 import { useUsersStore } from "src/stores/useUser";
 
 import UserListActive from "src/components/UserListActive.vue";
+import EmojiPicker from "src/components/emojiPicker/EmojiPicker.vue";
 const conversations = [
   {
     id: 1,
@@ -200,7 +212,7 @@ const conversations = [
 
 export default {
   name: "WhatsappLayout",
-  components: { FunctionsProfile, UserListActive },
+  components: { FunctionsProfile, UserListActive, EmojiPicker },
   setup() {
     const store = useUsersStore();
     onMounted(() => {
@@ -214,6 +226,13 @@ export default {
     const message = ref("");
     const currentConversationIndex = ref(null);
     const RefMessages = ref(null);
+    const statusBoxEmojis = ref(false);
+    const openEmojis = () => {
+      statusBoxEmojis.value = !statusBoxEmojis.value;
+    };
+    const addEmoji = (value) => {
+      message.value += value;
+    };
     watchEffect(() => {
       if (
         RefMessages.value !== null &&
@@ -265,11 +284,13 @@ export default {
     function setCurrentConversation(index) {
       currentConversationIndex.value = index;
       listenerProfile.value = false;
+      statusBoxEmojis.value = false;
     }
     function sendMessage() {
       if (!message.value) return;
       store.sendMessage(message.value);
       message.value = "";
+      statusBoxEmojis.value = false;
     }
 
     return {
@@ -286,6 +307,9 @@ export default {
       sendMessage,
       listenerProfile,
       RefMessages,
+      openEmojis,
+      statusBoxEmojis,
+      addEmoji,
     };
   },
 };

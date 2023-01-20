@@ -5,13 +5,15 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useAuth } from "@vueuse/firebase";
 import { computed } from "vue";
 
+console.log(process.env.API_KEY);
+const { API_KEY, MESSAGIN_SENDER_ID, APP_ID } = process.env;
 const firebaseConfig = {
-  apiKey: "AIzaSyDUVwF2oMTbVHbMHpusv0prHEaDWoclWEA",
+  apiKey: API_KEY,
   authDomain: "chat-quasar-f620e.firebaseapp.com",
   projectId: "chat-quasar-f620e",
   storageBucket: "chat-quasar-f620e.appspot.com",
-  messagingSenderId: "426273383763",
-  appId: "1:426273383763:web:0404b9d2365d0c8266eda6",
+  messagingSenderId: MESSAGIN_SENDER_ID,
+  appId: APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
