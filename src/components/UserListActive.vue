@@ -25,7 +25,7 @@
         <!-- <q-item-label class="conversation__summary" caption>
           <q-icon name="check" v-if="conversation.sent" />
           <q-icon name="not_interested" v-if="conversation.deleted" />
-          {{ conversation.caption }}
+          {{ store.chat.findLast((x) => x.uid === conversation.uid)?.text }}
         </q-item-label> -->
       </q-item-section>
       <q-item-section side>
@@ -45,7 +45,7 @@ import { collection, onSnapshot, query } from "@firebase/firestore";
 import { useAuth } from "@vueuse/firebase";
 import { auth, db } from "src/boot/firebase";
 import { useUsersStore } from "src/stores/useUser";
-import { ref, watchEffect } from "vue";
+import { computed, ref, watchEffect } from "vue";
 
 const users = ref([]);
 const { user } = useAuth(auth);
