@@ -2,7 +2,19 @@
   <q-page padding>
     <form @submit.prevent="updateData">
       <div id="profile">
-        <img :src="dataUser.avatar" class="img-profile" />
+        <img
+          :src="
+            dataUser.avatar ||
+            'https://t4.ftcdn.net/jpg/04/83/90/95/360_F_483909569_OI4LKNeFgHwvvVju60fejLd9gj43dIcd.jpg'
+          "
+          class="img-profile"
+        />
+        <input
+          type="file"
+          @change="uploadImageProfile"
+          name="at"
+          placeholder="name"
+        />
 
         <div class="text-profile">
           <div class="text-field">
@@ -73,6 +85,7 @@
 <script setup>
 import { computed, ref, watchEffect } from "vue";
 import { useUsersStore } from "src/stores/useUser";
+import uploadImageProfile from "src/controllers/profile_upload";
 
 const store = useUsersStore();
 const dataUser = computed(() => store.userData);

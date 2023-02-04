@@ -11,7 +11,12 @@
     >
       <q-item-section avatar>
         <q-avatar>
-          <img :src="conversation.avatar" />
+          <img
+            :src="
+              conversation.avatar ||
+              'https://t4.ftcdn.net/jpg/04/83/90/95/360_F_483909569_OI4LKNeFgHwvvVju60fejLd9gj43dIcd.jpg'
+            "
+          />
         </q-avatar>
       </q-item-section>
 

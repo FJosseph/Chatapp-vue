@@ -16,10 +16,14 @@
 
           <q-btn round flat>
             <q-avatar>
-              <img :src="current.avatar" />
+              <img
+                :src="
+                  current.avatar ||
+                  'https://t4.ftcdn.net/jpg/04/83/90/95/360_F_483909569_OI4LKNeFgHwvvVju60fejLd9gj43dIcd.jpg'
+                "
+              />
             </q-avatar>
           </q-btn>
-
           <span class="q-subtitle-1 q-pl-md">
             {{ current.firstname }}
           </span>
@@ -28,6 +32,14 @@
 
           <q-btn round flat icon="search" />
           <q-btn round flat>
+            <form>
+              <input
+                type="file"
+                @change="uploadFile"
+                name="at"
+                placeholder="name"
+              />
+            </form>
             <q-icon name="attachment" class="rotate-135" />
           </q-btn>
           <q-btn round flat icon="more_vert">
@@ -188,7 +200,7 @@ import { useQuasar } from "quasar";
 import { ref, computed, onMounted, provide, watchEffect, watch } from "vue";
 import FunctionsProfile from "src/components/FunctionsProfile.vue";
 import { useUsersStore } from "src/stores/useUser";
-
+import uploadFile from ".././controllers/toolbar";
 import UserListActive from "src/components/UserListActive.vue";
 import EmojiPicker from "src/components/emojiPicker/EmojiPicker.vue";
 const conversations = [
@@ -310,6 +322,7 @@ export default {
       openEmojis,
       statusBoxEmojis,
       addEmoji,
+      uploadFile,
     };
   },
 };

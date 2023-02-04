@@ -2,6 +2,7 @@ import { boot } from "quasar/wrappers";
 import { initializeApp } from "firebase/app";
 import { getFirestore, serverTimestamp } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 import { useAuth } from "@vueuse/firebase";
 import { computed } from "vue";
 
@@ -18,9 +19,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 const auth = getAuth(app);
+const storage = getStorage(app);
 const marcaTiempo = serverTimestamp;
 
-export { db, auth, marcaTiempo };
+export { db, auth, storage, marcaTiempo };
 // alert("Ok");
 // "async" is optional;
 // more info on params: https://v2.quasar.dev/quasar-cli/boot-files
