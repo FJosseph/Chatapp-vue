@@ -2,7 +2,7 @@
   <q-page padding>
     <form @submit.prevent="updateData">
       <div id="profile">
-        <img
+        <!-- <img
           :src="
             dataUser.avatar ||
             'https://t4.ftcdn.net/jpg/04/83/90/95/360_F_483909569_OI4LKNeFgHwvvVju60fejLd9gj43dIcd.jpg'
@@ -14,7 +14,32 @@
           @change="uploadImageProfile"
           name="at"
           placeholder="name"
-        />
+          accept="image/png, image/gif, image/jpeg"
+        /> -->
+
+        <div class="avatar-upload">
+          <div class="avatar-edit">
+            <input
+              @change="uploadImageProfile"
+              type="file"
+              id="imageUpload"
+              placeholder="name"
+              accept=".png, .jpg, .jpeg"
+            />
+            <label for="imageUpload">
+              <q-icon name="edit"></q-icon>
+            </label>
+          </div>
+          <div class="avatar-preview">
+            <div
+              id="imagePreview"
+              :style="`background-image: url(${
+                dataUser.avatar ||
+                'https://t4.ftcdn.net/jpg/04/83/90/95/360_F_483909569_OI4LKNeFgHwvvVju60fejLd9gj43dIcd.jpg'
+              })`"
+            ></div>
+          </div>
+        </div>
 
         <div class="text-profile">
           <div class="text-field">
@@ -166,5 +191,70 @@ p {
   align-items: center;
 }
 button {
+}
+
+/* Style Image Profile */
+.avatar-upload {
+  position: relative;
+  max-width: 205px;
+  margin: 50px auto;
+}
+.avatar-upload .avatar-edit {
+  position: absolute;
+  right: 12px;
+  z-index: 1;
+  top: 10px;
+}
+.avatar-upload .avatar-edit input {
+  display: none;
+}
+.avatar-upload .avatar-edit input + label {
+  /* display: inline-block; */
+  width: 34px;
+  height: 34px;
+  margin-bottom: 0;
+  border-radius: 100%;
+  background: #ffffff;
+  border: 1px solid transparent;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  font-weight: normal;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.avatar-upload .avatar-edit input + label:hover {
+  background: #f1f1f1;
+  border-color: #d6d6d6;
+  display: flex;
+  align-items: center;
+}
+/* .avatar-upload .avatar-edit input + label:after {
+  content: "\f040";
+  font-family: "FontAwesome";
+  color: #757575;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin: auto;
+} */
+.avatar-upload .avatar-preview {
+  width: 192px;
+  height: 192px;
+  position: relative;
+  border-radius: 100%;
+  border: 6px solid #f8f8f8;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+}
+.avatar-upload .avatar-preview > div {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 </style>
