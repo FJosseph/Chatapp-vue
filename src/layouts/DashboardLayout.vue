@@ -31,16 +31,40 @@
           <q-space />
 
           <q-btn round flat icon="search" />
-          <q-btn round flat>
-            <form>
-              <input
-                type="file"
-                @change="uploadFile"
-                name="at"
-                placeholder="name"
-              />
-            </form>
-            <q-icon name="attachment" class="rotate-135" />
+          <q-btn
+            id="file_input"
+            round
+            flat
+            icon="attachment"
+            style="
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 10px;
+              height: 10px;
+              line-height: 10px;
+            "
+          >
+            <q-file
+              rounded
+              dense
+              accept="image/*"
+              :display-value="false"
+              borderless
+              hide-bottom-space
+              :filled="false"
+              v-model="file"
+              @update:model-value="changesFile"
+              input-style="overflow:hidden"
+            >
+              <!-- <template v-slot:file>
+                <q-icon name="attachment" class="rotate-135" />
+              </template> -->
+            </q-file>
+            <!-- <form>
+              <input type="file" @change="uploadFile" />
+            </form> -->
+            <!-- <q-icon name="attachment" class="rotate-135" /> -->
           </q-btn>
           <q-btn round flat icon="more_vert">
             <q-menu auto-close :offset="[110, 0]">
@@ -159,6 +183,7 @@
 
       <q-page-container class="bg-grey-2">
         <router-view />
+        <modal-image-send />
       </q-page-container>
       <q-footer>
         <emoji-picker
@@ -203,6 +228,8 @@ import { useUsersStore } from "src/stores/useUser";
 import uploadFile from ".././controllers/toolbar";
 import UserListActive from "src/components/UserListActive.vue";
 import EmojiPicker from "src/components/emojiPicker/EmojiPicker.vue";
+import ModalImageSend from "src/components/ModalImageSend.vue";
+
 const conversations = [
   {
     id: 1,
@@ -224,18 +251,29 @@ const conversations = [
 
 export default {
   name: "WhatsappLayout",
-  components: { FunctionsProfile, UserListActive, EmojiPicker },
+  components: { FunctionsProfile, UserListActive, EmojiPicker, ModalImageSend },
   setup() {
+    // Store
     const store = useUsersStore();
     onMounted(() => {
       store.getUser();
     });
+    // Profile
     const listenerProfile = ref(false);
     provide("listenerProfile", listenerProfile);
     const $q = useQuasar();
     const leftDrawerOpen = ref(false);
+    // Estados messages
     const search = ref("");
     const message = ref("");
+    provide("message", message);
+    const file = ref(null);
+    const fileChange = ref(null);
+    provide("file", file);
+    provide("fileChange", fileChange);
+    // Estado modal: Confirmación de envío
+    const modal = ref(false);
+    provide("modalState", modal);
     const currentConversationIndex = ref(null);
     const RefMessages = ref(null);
     const statusBoxEmojis = ref(false);
@@ -258,6 +296,16 @@ export default {
         }, 5);
       }
     });
+
+    // Envío de archivos y comprobación
+    const changesFile = (file) => {
+      let reader = new FileReader();
+      reader.addEventListener("load", async () => {
+        fileChange.value = reader.result;
+      });
+      reader.readAsDataURL(file);
+      modal.value = true;
+    };
 
     const current = ref({
       firstname: "",
@@ -323,12 +371,17 @@ export default {
       statusBoxEmojis,
       addEmoji,
       uploadFile,
+      file,
+      changesFile,
     };
   },
 };
 </script>
 
 <style lang="sass">
+#file_input > span.q-btn__content.text-center.col.items-center.q-anchor--skip.justify-center.row > i
+  position: absolute
+
 .WAL
   width: 100%
   height: 100%
