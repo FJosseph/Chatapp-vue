@@ -1,14 +1,19 @@
-import { ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { storage } from "src/boot/firebase";
 import { useUsersStore } from "src/stores/useUser";
 import { computed, onMounted, provide, watchEffect, watch } from "vue";
 
 const store = useUsersStore();
 const userData = computed(() => store.userData);
-export default function uploadFile(event) {
+export default function uploadFile(file, message) {
   // Obtener el archivo
-  const file = event.target.files[0];
-  console.log(file, userData.value);
+  // const file = event.target.files[0];
+  // console.log(file, userData.value);
   // Creación de referencia
   const refAttachment = ref(
     storage,
@@ -27,7 +32,9 @@ export default function uploadFile(event) {
     (error) => {
       console.log(error);
     },
-    () => {
+    async () => {
+      let imageURL = await getDownloadURL(refAttachment);
+      store.sendMessage(message, imageURL);
       console.log("Finished!!");
     }
   );
