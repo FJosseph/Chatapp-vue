@@ -120,13 +120,14 @@ export const useUsersStore = defineStore("user", {
         ...data,
       });
     },
-    async sendMessage(message) {
+    async sendMessage(message, file) {
       try {
         const user = this.userData;
         const userContact = this.currentUserContact;
         const dataMessage = {
           user: user.email,
           text: message,
+          file,
           date: serverTimestamp(),
           uid: user.uid,
         };
