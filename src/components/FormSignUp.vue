@@ -46,8 +46,17 @@
             'Tu contraseña tener más de 5 caracteres',
         ]"
         label="Password"
-        type="password"
-      />
+        :type="visibility ? 'text' : 'password'"
+      >
+        <template v-slot:append>
+          <q-avatar @click="visibility = !visibility">
+            <q-icon
+              :name="visibility ? 'visibility_off' : 'visibility'"
+              color="black"
+            />
+          </q-avatar>
+        </template>
+      </q-input>
       <q-input
         class="q-mx-sm q-my-sm"
         outlined
@@ -59,8 +68,17 @@
             'Deben coincidir ambas contraseñas',
         ]"
         label="Confirm Password"
-        type="password"
-      />
+        :type="visibilityConfirm ? 'text' : 'password'"
+      >
+        <template v-slot:append>
+          <q-avatar @click="visibilityConfirm = !visibilityConfirm">
+            <q-icon
+              :name="visibilityConfirm ? 'visibility_off' : 'visibility'"
+              color="black"
+            />
+          </q-avatar>
+        </template>
+      </q-input>
       <div class="row">
         <a href="/login">¿Ya tienes una cuenta? Ingresa</a>
       </div>
@@ -98,6 +116,8 @@ export default {
       email: "",
       password: "",
     });
+    const visibility = ref(false);
+    const visibilityConfirm = ref(false);
     const onSubmit = () => {
       if (
         confirmPassword.value !== input.value.password ||
@@ -148,6 +168,8 @@ export default {
       confirmPassword,
       isAuthenticated,
       user,
+      visibility,
+      visibilityConfirm,
     };
   },
 };

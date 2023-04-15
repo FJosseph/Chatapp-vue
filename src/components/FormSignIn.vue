@@ -21,11 +21,20 @@
         class="q-mx-sm q-my-sm"
         outlined
         v-model="input.password"
-        type="password"
+        :type="visibility ? 'text' : 'password'"
         lazy-rules
         :rules="[(val) => (val && val.length > 0) || 'Campo vacío']"
         label="Password"
-      />
+      >
+        <template v-slot:append>
+          <q-avatar @click="visibility = !visibility">
+            <q-icon
+              :name="visibility ? 'visibility_off' : 'visibility'"
+              color="black"
+            />
+          </q-avatar>
+        </template>
+      </q-input>
       <div class="row">
         <a href="/signup">¿No tienes una cuenta? Regístrate</a>
       </div>
@@ -60,6 +69,8 @@ export default {
       email: "",
       password: "",
     });
+    // Visibilidad password
+    const visibility = ref(false);
     const onSubmit = async () => {
       const data = await store.signinUser(
         input.value.email,
@@ -99,6 +110,7 @@ export default {
       isAuthenticated,
       user,
       logout,
+      visibility,
     };
   },
 };
