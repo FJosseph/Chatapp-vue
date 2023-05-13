@@ -49,6 +49,8 @@
         ></q-btn>
       </div>
     </q-form>
+    <q-separator class="q-my-lg"></q-separator>
+    <button-google />
     <!-- <q-btn v-if="isAuthenticated" @click="logout">Salir</q-btn> -->
   </div>
 </template>
@@ -58,7 +60,9 @@ import { ref } from "vue";
 import { useUsersStore } from "src/stores/useUser";
 import { useAuth } from "@vueuse/firebase";
 import { auth } from "src/boot/firebase";
+import ButtonGoogle from "./buttonGoogle/ButtonGoogle.vue";
 export default {
+  components: { ButtonGoogle },
   name: "FormComponent",
   setup() {
     const { isAuthenticated, user } = useAuth(auth);

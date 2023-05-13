@@ -36,7 +36,7 @@ export default boot((/* { app, router, ... } */ { urlPath, redirect }) => {
       }
     } else {
       if (urlPath.startsWith("/Login") || urlPath.startsWith("/signup")) {
-        setTimeout(() => redirect({ path: "/chatapp" }), 1100);
+        setTimeout(() => redirect({ path: "/chatapp" }), 2000);
         return;
       }
     }

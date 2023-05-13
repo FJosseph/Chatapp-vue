@@ -1,9 +1,11 @@
 import { defineStore } from "pinia";
 import { auth, db, marcaTiempo } from "boot/firebase";
 import {
+  GoogleAuthProvider,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
 } from "firebase/auth";
 import {
@@ -11,12 +13,14 @@ import {
   collection,
   doc,
   getDoc,
+  getDocs,
   onSnapshot,
   orderBy,
   query,
   serverTimestamp,
   setDoc,
   updateDoc,
+  where,
 } from "firebase/firestore";
 let unsubscribe;
 export const useUsersStore = defineStore("user", {
@@ -84,6 +88,14 @@ export const useUsersStore = defineStore("user", {
         return "Error";
       }
     },
+    async loginWithGoogle() {
+      try {
+        const provider = new GoogleAuthProvider();
+        await signInWithPopup(auth, provider);
+      } catch (error) {
+        console.log(error.message);
+      }
+    },
     async logoutUser() {
       try {
         await signOut(auth);
@@ -106,12 +118,12 @@ export const useUsersStore = defineStore("user", {
         const { firstname, lastname, uid, email, avatar, description } =
           usuario._document.data.value.mapValue.fields;
         this.userData = {
-          avatar: avatar.stringValue,
-          firstname: firstname.stringValue,
-          lastname: lastname.stringValue,
-          uid: uid.stringValue,
-          email: email.stringValue,
-          description: description.stringValue,
+          avatar: avatar?.stringValue || avatar,
+          firstname: firstname?.stringValue || firstname,
+          lastname: lastname?.stringValue || lastname,
+          uid: uid?.stringValue || uid,
+          email: email?.stringValue || email,
+          description: description?.stringValue || description,
         };
       });
     },
