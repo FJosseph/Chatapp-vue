@@ -2,12 +2,20 @@
   <q-page>
     <div ref="RefChat" v-if="id !== null" class="q-pa-md row justify-center">
       <div style="width: 100%; max-width: 650px">
-        <q-chat-message
+        <!-- <q-chat-message
           v-for="(chat, index) in chats"
           :id="`chat-${index}`"
           :key="chat.uid"
           :text="[chat.text]"
           :sent="chat.uid === myUser.uid"
+        /> -->
+        <all-messages
+          v-for="(chat, index) in chats"
+          :id="`chat-${index}`"
+          :key="chat.uid"
+          :text="chat.text"
+          :sent="chat.uid == myUser.uid"
+          :image="chat.file"
         />
       </div>
     </div>
@@ -16,6 +24,7 @@
 <script setup>
 import { collection, onSnapshot, orderBy, query } from "@firebase/firestore";
 import { db } from "src/boot/firebase";
+import AllMessages from "src/components/messages/AllMessages.vue";
 import { useUsersStore } from "src/stores/useUser";
 import { computed, onMounted, ref, watch, watchEffect } from "vue";
 

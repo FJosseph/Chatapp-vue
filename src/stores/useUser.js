@@ -146,7 +146,7 @@ export const useUsersStore = defineStore("user", {
         ...data,
       });
     },
-    async sendMessage(message, file) {
+    async sendMessage(message, file = "") {
       try {
         const user = this.userData;
         const userContact = this.currentUserContact;
