@@ -63,16 +63,16 @@ watchEffect(() => {
     }, 60);
   }
 });
-watch(
-  () => id.value,
-  (NEWID) => {
-    store.getDataChat(NEWID);
-    setTimeout(() => {
-      insertComponents();
-      window.scroll(0, 200);
-    }, 300);
-  }
-);
+// watch(
+//   () => id.value,
+//   (NEWID) => {
+//     store.getDataChat(NEWID);
+//     setTimeout(() => {
+//       insertComponents();
+//       window.scroll(0, 200);
+//     }, 300);
+//   }
+// );
 </script>
 <style>
 .imageMessage {

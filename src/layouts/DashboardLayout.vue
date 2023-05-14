@@ -291,9 +291,9 @@ export default {
         setTimeout(() => {
           document
             .getElementsByClassName("scroll")[0]
-            .scrollTo(0, RefMessages.value.scrollHeight);
-          // .scrollTo(0, RefMessages.value.scrollHeight);
-        }, 5);
+            // .scrollTo(0, RefMessages.value.scrollHeight);
+            .scrollTo(0, RefMessages.value.scrollHeight + 1500);
+        }, 10);
       }
     });
 
