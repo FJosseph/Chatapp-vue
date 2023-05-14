@@ -175,9 +175,8 @@ const updateData = () => {
 label {
   font-weight: 600;
 }
-p {
-  /* margin: 0 0 16px; */
-}
+/* p {
+} */
 
 .text-field {
   width: 10em;
@@ -190,8 +189,8 @@ p {
   justify-content: center;
   align-items: center;
 }
-button {
-}
+/* button {
+} */
 
 /* Style Image Profile */
 .avatar-upload {

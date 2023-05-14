@@ -99,7 +99,6 @@ export const useUsersStore = defineStore("user", {
           this.userData = {
             uid,
             firstname: displayName,
-            lastname: "",
             email,
           };
           await setDoc(doc(db, "user", this.userData.uid), {
@@ -135,7 +134,7 @@ export const useUsersStore = defineStore("user", {
         this.userData = {
           avatar: avatar?.stringValue || avatar,
           firstname: firstname?.stringValue || firstname,
-          lastname: lastname?.stringValue || lastname,
+          lastname: lastname?.stringValue || lastname || "Complétalo😃",
           uid: uid?.stringValue || uid,
           email: email?.stringValue || email,
           description: description?.stringValue || description,
