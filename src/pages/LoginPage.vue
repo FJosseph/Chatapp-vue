@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <div>
+    <div style="width: 100%; display: flex; justify-content: center">
       <FormVue />
     </div>
   </q-page>

@@ -35,7 +35,10 @@
           </q-avatar>
         </template>
       </q-input>
-      <div class="row">
+      <div
+        class="row"
+        :style="$q.screen.lt.sm ? 'justify-content: center' : ''"
+      >
         <a href="/signup">¿No tienes una cuenta? Regístrate</a>
       </div>
       <div class="row items-center">
@@ -121,8 +124,9 @@ export default {
 </script>
 <style>
 .form-template {
-  max-width: 100em;
-  min-width: 30em;
+  max-width: 30em;
+  /* min-width: 30em; */
+  width: 90%;
   background: white;
   padding: 20px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;

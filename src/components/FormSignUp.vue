@@ -79,7 +79,10 @@
           </q-avatar>
         </template>
       </q-input>
-      <div class="row">
+      <div
+        class="row"
+        :style="$q.screen.lt.sm ? 'justify-content: center' : ''"
+      >
         <a href="/login">¿Ya tienes una cuenta? Ingresa</a>
       </div>
       <div class="row items-center">
@@ -93,6 +96,8 @@
         ></q-btn>
       </div>
     </q-form>
+    <q-separator class="q-my-lg"></q-separator>
+    <button-google />
     <!-- <q-btn v-if="isAuthenticated" @click="logout"> Salir </q-btn> -->
   </div>
 </template>
@@ -102,8 +107,11 @@ import { ref } from "vue";
 import { useAuth } from "@vueuse/firebase";
 import { useUsersStore } from "src/stores/useUser";
 import { auth } from "src/boot/firebase";
+import ButtonGoogle from "./buttonGoogle/ButtonGoogle.vue";
+
 export default {
   name: "FormComponent",
+  components: { ButtonGoogle },
   setup() {
     const { isAuthenticated, user } = useAuth(auth);
     const store = useUsersStore();
@@ -176,7 +184,8 @@ export default {
 </script>
 <style>
 .form-template {
-  max-width: 100em;
+  max-width: 30em;
+  width: 90%;
   background: white;
   padding: 20px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;

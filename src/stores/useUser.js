@@ -91,7 +91,22 @@ export const useUsersStore = defineStore("user", {
     async loginWithGoogle() {
       try {
         const provider = new GoogleAuthProvider();
-        await signInWithPopup(auth, provider);
+        const login = await signInWithPopup(auth, provider);
+        const user = await getDoc(doc(db, "user", login.user.uid));
+        console.log(user);
+        if (!user._document) {
+          const { uid, displayName, email } = login.user;
+          this.userData = {
+            uid,
+            firstname: displayName,
+            lastname: "",
+            email,
+          };
+          await setDoc(doc(db, "user", this.userData.uid), {
+            ...this.userData,
+            status: true,
+          });
+        }
       } catch (error) {
         console.log(error.message);
       }
