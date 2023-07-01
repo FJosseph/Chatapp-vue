@@ -29,23 +29,6 @@ import { useUsersStore } from "src/stores/useUser";
 import { computed, onMounted, ref, watch, watchEffect } from "vue";
 
 // Insertar componente
-const insertComponents = () => {
-  chats.value.map((x, index) => {
-    if (x.file) {
-      const contentImage = document.createElement("div");
-      const image = document.createElement("img");
-      contentImage.setAttribute("class", "imageMessage");
-      image.setAttribute("src", `${x.file}`);
-      contentImage.appendChild(image);
-      console.log(contentImage);
-      const elementCurrent = document.querySelector(
-        `#chat-${index} div div div`
-      );
-      console.log(elementCurrent);
-      elementCurrent.appendChild(contentImage);
-    }
-  });
-};
 
 let unsubscribe;
 const store = useUsersStore();
@@ -57,6 +40,7 @@ const RefChat = ref(null);
 watchEffect(() => {
   store.getDataChat(id.value);
   if (RefChat.value !== null) {
+    console.log("ref:", JSON.stringify(RefChat.value));
     setTimeout(() => {
       window.scroll(0, 100);
       // insertComponents();

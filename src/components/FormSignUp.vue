@@ -96,8 +96,8 @@
         ></q-btn>
       </div>
     </q-form>
-    <q-separator class="q-my-lg"></q-separator>
-    <button-google />
+    <!-- <q-separator class="q-my-lg"></q-separator> -->
+    <!-- <button-google /> -->
     <!-- <q-btn v-if="isAuthenticated" @click="logout"> Salir </q-btn> -->
   </div>
 </template>
@@ -111,7 +111,7 @@ import ButtonGoogle from "./buttonGoogle/ButtonGoogle.vue";
 
 export default {
   name: "FormComponent",
-  components: { ButtonGoogle },
+  // components: {  },
   setup() {
     const { isAuthenticated, user } = useAuth(auth);
     const store = useUsersStore();
